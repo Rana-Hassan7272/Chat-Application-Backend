@@ -29,7 +29,7 @@ const server = createServer(app);
 const onlineUser = new Set();
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5173", "http://localhost:4173", "http://localhost:3000"],
+    origin: [process.env.CLIENT_URL, "http://localhost:4173", "http://localhost:3000"],
     credentials: true,
   },
 });
@@ -37,7 +37,7 @@ app.set("io", io);
 
 // Middleware
 app.use(cors({
-  origin: ["http://localhost:5173", "http://localhost:4173", "http://localhost:3000"],
+  origin: [process.env.CLIENT_URL, "http://localhost:4173", "http://localhost:3000"],
   credentials: true,
 }));
 app.use(express.json());
