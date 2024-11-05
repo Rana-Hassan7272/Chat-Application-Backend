@@ -29,16 +29,18 @@ const server = createServer(app);
 const onlineUser = new Set();
 const io = new Server(server, {
   cors: {
-    origin: [process.env.CLIENT_URL, "http://localhost:5173","http://localhost:5173", "http://localhost:3000"],
+    origin: [process.env.CLIENT_URL, "http://localhost:4173","http://localhost:5173", "http://localhost:3000"],
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
   },
 });
 app.set("io", io);
 
 // Middleware
 app.use(cors({
-  origin: [process.env.CLIENT_URL, "http://localhost:4173", "http://localhost:3000"],
+  origin: [process.env.CLIENT_URL, "http://localhost:4173", "http://localhost:3000","http://localhost:5173"],
   credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -141,10 +143,11 @@ io.on('connection', (socket) => {
 // Start server
 const PORT = process.env.SERVER_PORT || 3000;
 const MODE = process.env.NODE_ENV?.trim() || 'Production';
+const adminSecretKey = process.env.ADMIN_SECRETKEY || "adsasdsdfsdfsdfd";
 
 server.listen(PORT, () => {
   console.log(`App is listening on port ${PORT} in ${MODE} mode`);
 });
 
-export { MODE, socketUserMap };
+export { MODE, socketUserMap ,adminSecretKey};
 
